@@ -13,6 +13,8 @@ import {
   StatusBar,
   Text,
 } from 'react-native'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/Contants'
@@ -25,11 +27,13 @@ const App = () => {
     StatusBar.setBarStyle('light-content')
   },[])
   return (
+    <Provider store={store}>
     <View style={styles.container}>
       <NavigationContainer>
           <Loading />
       </NavigationContainer>
     </View>
+    </Provider>
   );
 };
 
