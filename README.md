@@ -14,3 +14,22 @@ The app is able to:
 - Load Commits in the repository and display with pagination.
 - Store Authenticated user
 - Logout user
+
+
+This project was created with:
+### npx react-native
+
+## Available Scripts
+
+In the project directory, you can run the command to start the app for android:
+
+### `npx react-native start run-android`
+
+For ios:
+
+### `npx react-native run-ios`
+
+
+
+
+
