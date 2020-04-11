@@ -1,8 +1,7 @@
-import { Dimensions, Insets, Platform } from 'react-native'
+import { Dimensions } from 'react-native'
 import ExtraDimensions from 'react-native-extra-dimensions-android'
 
 
-export const IS_IOS = () => Platform.os === 'ios'
 
 export const Android_Status_Bar_height = ExtraDimensions.getStatusBarHeight()
 
