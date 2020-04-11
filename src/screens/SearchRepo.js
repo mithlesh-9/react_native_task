@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Keyboard, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, Keyboard, TextInput, TouchableOpacity, ActivityIndicator, Image, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchCommits } from '../redux/commits/commits.actions'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -8,7 +8,7 @@ import ErrorMessage from '../components/ErrorMessage'
 
 class SearchRepo extends Component {
     state = {
-        searchTerm:'mithleshfreak/react_native_task',
+        searchTerm:'facebook/react-native',
         error:null
     }
 
@@ -63,7 +63,6 @@ class SearchRepo extends Component {
                          style={styles.input}
                          autoCapitalize="none"
                          autoCorrect={false}
-                         autoFocus={true}
                          value={searchTerm}
                          onChangeText={
                              text => this.setState(()=>({searchTerm:text}))} />
@@ -75,6 +74,10 @@ class SearchRepo extends Component {
                             :<Icon name="search1" size={25} color="#fff" />
                         }
                     </TouchableOpacity>
+                </View>
+                <View style={{justifyContent:'center',alignItems:'center',margin:20}}>
+                        <Image source={require('../assets/searching.png')} style={{height:300,width:350}} />
+                        <Text style={{color:'rgba(0,0,0,0.3)'}}>Search for repository followed by username.</Text>
                 </View>
             </View>
             </View>
