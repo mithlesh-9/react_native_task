@@ -1,5 +1,6 @@
 import {UserActionTypes} from './user.types'
 
+
 const INITIAL_STATE = {
     isAuthenticated: false,
     username: '',
@@ -7,7 +8,7 @@ const INITIAL_STATE = {
     usernameErrors: null,
     userData: null,
     isLoggingIn:false,
-    currentUser:null,
+    currentUser:'',
     loginErros: null
 }
 export function UserReducer(state = INITIAL_STATE,action) {
@@ -19,6 +20,11 @@ export function UserReducer(state = INITIAL_STATE,action) {
                 usernameErrors: null,
                 userData: null,
                 username: '',
+            }
+        case UserActionTypes.GET_AUTH:
+            return {
+                ...state,
+                ...action.payload
             }
         case UserActionTypes.CHECK_USERNAME_SUCCESS:
             return {
@@ -65,7 +71,7 @@ export function UserReducer(state = INITIAL_STATE,action) {
         case UserActionTypes.LOGOUT:
             return {
                 ...state,
-                currentUser: null,
+                currentUser: '',
                 isAuthenticated: false,
             }     
         default:

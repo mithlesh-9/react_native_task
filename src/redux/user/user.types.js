@@ -5,5 +5,6 @@ export const  UserActionTypes =  {
         LOGIN_START:'LOGIN_START',
         LOGIN_SUCCESS:'LOGIN_SUCCESS',
         LOGIN_FAILURE:'LOGIN_FAILURE',
-        LOGOUT:'LOGOUT'
+        LOGOUT:'LOGOUT',
+        GET_AUTH: 'GET_AUTH'
 }

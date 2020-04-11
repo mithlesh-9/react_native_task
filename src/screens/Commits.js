@@ -1,30 +1,21 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, ScrollView, Keyboard, FlatList, TouchableOpacity, ActivityIndicator, Text, Image } from 'react-native'
+import { StyleSheet, View, Image, FlatList, TouchableOpacity, ActivityIndicator, Text } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchCommits, clearCommits } from '../redux/commits/commits.actions'
-import Icon from 'react-native-vector-icons/AntDesign'
+
 import moment from 'moment'
 
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/Contants'
 import ErrorMessage from '../components/ErrorMessage'
 
 class Commits extends Component {
     state = {
-        error:null,
         page:1
     }
 
     componentDidUpdate(prevProps,prevState) {
-        const { error, searchTerm, page } = this.state
-        const { errors, data, navigation, dispatch, usernameRepo } = this.props
-        if(error) {
-            if(searchTerm !== prevState.searchTerm) {
-                if(searchTerm.trim()) {
-                    this.setState(()=>({
-                        error:null
-                    }))
-                }
-            }
-        }
+        const { page } = this.state
+        const { errors, dispatch, usernameRepo } = this.props
 
         if(errors !== prevProps.errors) {
             if(errors) {
@@ -34,13 +25,7 @@ class Commits extends Component {
             }
         }
 
-        if(prevProps.data !== data) {
-            if(data) {
-                console.log(data.length)
-            }
-        }
         if(page !== prevState.page) {
-            console.log('here')
             dispatch(fetchCommits(usernameRepo,page))
         }
     }
@@ -86,12 +71,18 @@ class Commits extends Component {
     
                                         </View>)
 
-                                    :   (<View style={{flexDirection:'row',alignItems:'center',flexWrap:'wrap'}}>
-                                        <Image style={styles.avatar} source={{uri:item.committer.avatar_url}}/>
-                                        <View style={styles.author}>
-                                            <Text style={[styles.authorText,{fontWeight:'bold'}]}>{item.committer.login}</Text><Text style={[styles.authorText,{color:'grey',marginLeft:5}]}>committed {moment(item.commit.committer.date).fromNow()}</Text>
-                                        </View>
-                                        </View>)
+                                    :  item.committer
+                                       ? (<View style={{flexDirection:'row',alignItems:'center',flexWrap:'wrap'}}>
+                                            <Image style={styles.avatar} source={{uri:item.committer.avatar_url}}/>
+                                            <View style={styles.author}>
+                                                <Text style={[styles.authorText,{fontWeight:'bold'}]}>{item.committer.login}</Text><Text style={[styles.authorText,{color:'grey',marginLeft:5}]}>committed {moment(item.commit.committer.date).fromNow()}</Text>
+                                            </View>
+                                          </View>)
+                                       : (<View style={{flexDirection:'row',alignItems:'center',flexWrap:'wrap'}}>
+                                            <View style={styles.author}>
+                                                <Text style={[styles.authorText,{fontWeight:'bold'}]}>{item.commit.committer.name}</Text><Text style={[styles.authorText,{color:'grey',marginLeft:5}]}>committed {moment(item.commit.committer.date).fromNow()}</Text>
+                                            </View>
+                                          </View>)
                             }
                         </View>
                     </View>
@@ -109,12 +100,13 @@ class Commits extends Component {
 
     renderEmptyList = () => (
         <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-            <Text>No data available.</Text>
+            <Image source={require('../assets/empty.png')} style={{width:350,height:300}} />
+            <Text style={{color:'rgba(0,0,0,0.3)',fontSize:15}}>No more data available.</Text>
         </View>
     )
 
     render() {
-        const {  error, page } = this.state
+        const { page } = this.state
         const { isLoading, errors, data } = this.props
         if(isLoading) {
             return (
@@ -124,13 +116,14 @@ class Commits extends Component {
         )}
         return (
             <View style={styles.conatainer}>
-                {errors && <ErrorMessage error={errors} />}
- 
+                <View style={{height: SCREEN_HEIGHT() - 155}}>
+                {errors && <ErrorMessage error={errors} margin/>}
                 {(data && data.length !== 0)
                     ? this.renderFlatList(data)
                     : this.renderEmptyList()
-                }           
-                <View style={{flexDirection:'row',justifyContent:'center',paddingBottom:30,padding:10}}>
+                }
+                </View>           
+                <View style={{flexDirection:'row',justifyContent:'center',paddingBottom:30,padding:20,height:95}}>
                 <TouchableOpacity 
                     style={[styles.btn,
                             {borderRightWidth:0,borderTopRightRadius:0,borderBottomRightRadius:0},
@@ -169,7 +162,6 @@ const styles = StyleSheet.create({
     conatainer: {
         flex:1,
         backgroundColor:'#fff',
-        justifyContent:'space-between'
     },
     flatList: {
         paddingTop:20,
