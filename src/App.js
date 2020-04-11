@@ -10,9 +10,10 @@ import React, { useEffect } from 'react';
 import {
   StyleSheet,
   View,
-  StatusBar,
-  Text,
+  StatusBar
 } from 'react-native'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/Contants'
@@ -20,16 +21,19 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from './constants/Contants'
 import Loading from './screens/Loading'
 
 
-const App = () => {
+const App = ({dispatch}) => {
   useEffect(()=>{
     StatusBar.setBarStyle('light-content')
+
   },[])
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
-          <Loading />
-      </NavigationContainer>
-    </View>
+    <Provider store={store}>
+      <View style={styles.container}>
+        <NavigationContainer>
+            <Loading />
+        </NavigationContainer>
+      </View>
+    </Provider>
   );
 };
 
